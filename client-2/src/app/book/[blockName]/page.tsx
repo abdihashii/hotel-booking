@@ -345,7 +345,7 @@ export default function BookABlockPage({
             <Image
               src={blockData.image_url!}
               alt={blockData.image_alt!}
-              className="object-cover"
+              className="object-cover rounded-lg"
               fill={true}
               sizes="(min-width: 640px) 50vw, 100vw"
               priority={true}
