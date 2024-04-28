@@ -10,7 +10,7 @@ export default function LoadingHome() {
           <h1 className="text-4xl font-bold">Blocks</h1>
 
           <Link
-            href="/admin"
+            href="/admin/block-a"
             className="bg-gray-600 px-2 rounded-lg hover:bg-gray-700 flex items-center justify-center"
           >
             <LockKeyhole />

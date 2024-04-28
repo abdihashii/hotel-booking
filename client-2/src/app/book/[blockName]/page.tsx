@@ -194,7 +194,7 @@ export default function BookABlockPage({
         </Link>
 
         <Link
-          href="/admin"
+          href={`/admin/${params.blockName}`}
           className="bg-gray-600 px-2 rounded-lg hover:bg-gray-700 flex items-center justify-center"
         >
           <LockKeyhole />
