@@ -11,7 +11,7 @@ export default async function AdminPage() {
   const allBlockNames = await getAllBlockNames();
 
   return (
-    <main className="gap-8 w-11/12 mx-auto lg:w-1/2 flex flex-col items-center justify-between pt-12">
+    <main className="gap-8 w-11/12 mx-auto lg:w-1/2 flex flex-col items-center justify-between py-12">
       {/* Navigation & Title */}
       <section className="w-full flex rounded-lg justify-between">
         <h1 className="text-4xl font-bold">Admin Page</h1>
