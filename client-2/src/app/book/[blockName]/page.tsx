@@ -1,17 +1,24 @@
 'use client';
 
+/* Libraries & Utils
+ *****************************************************************************/
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { addDays, startOfDay } from 'date-fns';
+import { addDays } from 'date-fns';
 import { toZonedTime, formatInTimeZone } from 'date-fns-tz';
 import * as z from 'zod';
-import { findNearestAvailableDateRange } from '@/lib/utils';
+import { findNearestAvailableDateRange, normalizeBlockName } from '@/lib/utils';
 
+/* Types & Schemas
+ *****************************************************************************/
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TUnavailableDates } from '@/types';
+import { bookingFormSchema } from '@/types/schemas';
 
+/* Components
+ *****************************************************************************/
 import { Home, LockKeyhole } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -24,58 +31,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import DateRangePicker from '@/components/Booking/DateRangePicker';
-
-const bookingFormSchema = z
-  .object({
-    name: z.string().min(1, {
-      message: 'Full name is required',
-    }),
-    guests: z
-      .number()
-      .min(1, {
-        message: 'Number of guests must be at least 1',
-      })
-      .max(6, {
-        message: 'Number of guests must be at most 6',
-      }),
-
-    dateRange: z
-      .object({
-        from: z
-          .date({
-            required_error: 'Check in date is required',
-          })
-          .refine(
-            function (date) {
-              return startOfDay(date) >= startOfDay(new Date());
-            },
-            {
-              message: 'Check in date must be a future date',
-            }
-          ),
-        to: z.date({
-          required_error: 'Check out date is required',
-        }),
-      })
-      .refine(
-        function (date) {
-          return startOfDay(date.to) > startOfDay(date.from);
-        },
-        {
-          message:
-            'Check out date must be at least one day after the check in date',
-        }
-      ),
-  })
-  .required();
-
-const normalizeBlockName = (blockName: string) => {
-  return blockName
-    .replace(/-/g, ' ')
-    .split(' ')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-};
 
 export default function BookABlockPage({
   params,
@@ -91,6 +46,8 @@ export default function BookABlockPage({
     image_alt: string | null;
     unavailableDates: TUnavailableDates;
   } | null>(null);
+  const normalizedBlockName = normalizeBlockName(params.blockName);
+
   // 1. Define a form
   const form = useForm<z.infer<typeof bookingFormSchema>>({
     resolver: zodResolver(bookingFormSchema),
@@ -156,8 +113,6 @@ export default function BookABlockPage({
     // reset the form
     form.reset();
   };
-
-  const normalizedBlockName = normalizeBlockName(params.blockName);
 
   useEffect(() => {
     async function fetchBlockData(blockName: string) {

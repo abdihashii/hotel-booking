@@ -39,3 +39,11 @@ export const findNearestAvailableDateRange = (uDs: any[]) => {
     to: addDays(nearestAvailableDate, 1),
   };
 };
+
+export const normalizeBlockName = (blockName: string) => {
+  return blockName
+    .replace(/-/g, ' ')
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
