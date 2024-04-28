@@ -18,6 +18,8 @@ const BlockCard = ({ block }: { block: TBlock }) => {
           src={block.image_url!}
           alt={block.image_alt_text!}
           fill={true}
+          sizes="100%"
+          priority
         />
       </div>
 
