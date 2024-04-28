@@ -13,6 +13,7 @@ const AvailabilityCalendar = ({
   blockNames,
   currentMonth,
   unavailableDates: uA,
+  initialBlockName, // normalized block name e.g. 'Block A'
 }: {
   blockNames:
     | {
@@ -21,13 +22,13 @@ const AvailabilityCalendar = ({
     | undefined;
   currentMonth: Date;
   unavailableDates: TUnavailableDates | undefined;
+  initialBlockName: string;
 }) => {
-  const {
-    selectedBlockName,
-    handleClickSelectedBlock,
-    unavailableDates,
-    loading,
-  } = useBookingsForAdmin(blockNames, uA);
+  const { selectedBlockName, unavailableDates, loading } = useBookingsForAdmin(
+    blockNames,
+    uA,
+    initialBlockName
+  );
 
   return (
     <section className="w-full border border-white rounded-lg flex flex-col gap-8 text-center">
@@ -37,7 +38,6 @@ const AvailabilityCalendar = ({
       <BlockButtonList
         blockNames={blockNames!}
         selectedBlockName={selectedBlockName}
-        handleChangeSelectedBlockName={handleClickSelectedBlock}
       />
 
       {loading ? (

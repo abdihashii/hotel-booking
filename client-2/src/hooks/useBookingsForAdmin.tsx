@@ -8,16 +8,14 @@ const useBookingsForAdmin = (
         block_name: string;
       }[]
     | undefined,
-  uA: TUnavailableDates | undefined
+  uA: TUnavailableDates | undefined,
+  initBlockName: string
 ) => {
   const [unavailableDates, setUnavailableDates] =
     useState<TUnavailableDates | null>(uA ?? null);
-  const [selectedBlockName, setSelectedBlockName] = useState<string>('Block A');
+  const [selectedBlockName, setSelectedBlockName] =
+    useState<string>(initBlockName);
   const [loading, setLoading] = useState<boolean>(false);
-
-  const handleClickSelectedBlock = (blockName: string) => {
-    setSelectedBlockName(blockName);
-  };
 
   /**
    * Use effect that returns unavailable dates when the selected block name changes
@@ -74,7 +72,6 @@ const useBookingsForAdmin = (
   return {
     unavailableDates,
     selectedBlockName,
-    handleClickSelectedBlock,
     loading,
   };
 };

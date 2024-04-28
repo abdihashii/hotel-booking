@@ -1,15 +1,12 @@
 import Link from 'next/link';
 
 import { Home } from 'lucide-react';
-import AvailabilityCalendar from '@/components/Admin/AvailabilityCalendar';
-import { getAllBlockNames, getUnavailableDatesForBlock } from '@/db';
 
-export default async function AdminPage() {
-  const currentMonth = new Date();
-
-  const unavailableDates = await getUnavailableDatesForBlock('Block A');
-  const allBlockNames = await getAllBlockNames();
-
+export default async function AdminPage({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <main className="gap-8 w-11/12 mx-auto lg:w-1/2 flex flex-col items-center justify-between py-12">
       {/* Navigation & Title */}
@@ -24,12 +21,7 @@ export default async function AdminPage() {
         </Link>
       </section>
 
-      {/* Availability Calendar with Border */}
-      <AvailabilityCalendar
-        blockNames={allBlockNames}
-        currentMonth={currentMonth}
-        unavailableDates={unavailableDates}
-      />
+      {children}
     </main>
   );
 }
